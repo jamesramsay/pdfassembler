@@ -11,7 +11,7 @@ import {
 import { arraysToBytes, bytesToString } from 'pdfjs-dist/lib/shared/util';
 
 import { deflate } from 'pako';
-import * as queue from 'promise-queue';
+import PQueue from 'p-queue';
 
 export type TypedArray = Int8Array | Uint8Array | Int16Array | Uint16Array |
   Int32Array | Uint32Array | Uint8ClampedArray | Float32Array | Float64Array;
@@ -29,7 +29,7 @@ export class PDFAssembler {
   objCacheQueue: any = Object.create(null);
   pdfManagerArrays = [];
   pdfAssemblerArrays = [];
-  promiseQueue: any = new queue(1);
+  promiseQueue: any = new PQueue({concurrency: 1});
   indent: boolean|string|number = false;
   compress = true;
   encrypt = false; // not yet implemented
